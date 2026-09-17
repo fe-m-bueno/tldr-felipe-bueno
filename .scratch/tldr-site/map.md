@@ -78,6 +78,6 @@ _(vazio — nada mais a especificar. O mapa chegou ao destino.)_
 - **O botão "TLDR" no site completo, e a instrumentação do clique nele.** Trabalho no repo
   `felipe-bueno`, não neste.
 - **Regerar a imagem de OG.** Ela diz "Fullstack Engineer" e a página diz "backend-focused".
-  Registrado no ticket 08; é trabalho de design.
+  Decidido em 2026-09-17: fica como está, o Felipe gosta assim. Ver emenda no ticket 08.
 - **Case study / página de detalhe de projeto.** Consequência direta de "uma página, ponto" —
   e 15 dos 16 referências também abandonaram.

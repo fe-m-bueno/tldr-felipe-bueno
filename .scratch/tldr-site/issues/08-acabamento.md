@@ -39,10 +39,12 @@ twitter:card    summary_large_image
 
 O título espelha a linha "The long version" do Elsewhere, que aponta pro site completo.
 
-**Inconsistência conhecida, não resolvida:** a imagem tem "Fullstack Engineer" impresso, e a
-página diz "Software engineer, backend-focused". Quem vê o preview lê uma coisa e clica pra ler
-outra. Regerar a imagem é trabalho de design, não de spec — fica registrado para quem
-implementar decidir se vale.
+**Inconsistência conhecida, ~~não resolvida~~ aceita:** a imagem tem "Fullstack Engineer"
+impresso, e a página diz "Software engineer, backend-focused". Quem vê o preview lê uma coisa e
+clica pra ler outra.
+
+**Emenda (implementação, 2026-09-17):** o Felipe decidiu manter. Gosta do "Fullstack Engineer" e
+não quer regerar a imagem. A divergência deixa de ser pendência.
 
 ### Analytics — nenhum
 
