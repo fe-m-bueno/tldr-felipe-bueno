@@ -91,3 +91,42 @@ Protótipo em `prototype/visual-directions.prototype.html` (`?variant=A|B|C|D`).
 Os valores de opacidade acima foram substituídos pela variante **E**: subtítulo, metadado,
 título de seção e sublinhado vão para alfa 0.60 no claro e 0.50 no escuro, para passar em
 WCAG AA. A hierarquia por meio-peso fica como está — ver `issues/07-contraste.md`.
+
+## Emenda — comportamento em mobile (verificado)
+
+Medido em 390×844. A variante E não tinha overflow horizontal, mas **a linha de duas colunas
+quebrava**: o detalhe passava para a segunda linha enquanto o metadado ficava ancorado à direita
+da primeira, e o texto corria por baixo dele.
+
+Regra acrescentada: abaixo de 560px, empilham **só as linhas que têm detalhe**
+(`.row:has(.d)`), com o metadado indo para baixo. As linhas de Elsewhere não têm detalhe e
+continuam em duas colunas, onde funcionam bem. O desktop não muda — confirmado que
+`flex-direction` segue `row` em 1440px.
+
+Altura em 390px: 1,91 telas.
+
+## Emenda — a indulgência, decidida
+
+Quatro ideias foram prototipadas em `?variant=H`, todas CSS puro para respeitar o zero
+JavaScript decidido no ticket 08. O Felipe escolheu **a mistura de 1 com 4**:
+
+1. **Apagar as irmãs.** Passar o mouse numa lista leva as outras linhas a 30% em 140ms.
+2. **O condutor que se completa.** A linha sob o cursor ganha um traço pontilhado crescendo da
+   esquerda para a direita, ligando o texto ao metadado. Gradiente repetido com `background-size`
+   indo de `0%` a `100%` em 420ms, suavização expo `cubic-bezier(.16,1,.3,1)`.
+
+A página fica calma parada; a linha se completa quando alguém aponta. É também a forma de trazer
+o traço da variante A, que o Felipe tinha elogiado, sem ele estar presente o tempo todo.
+
+### Detalhes que só apareceram montando
+
+- **O condutor precisa da sobra da linha.** Primeira tentativa deu `flex:1` a ele e ao bloco de
+  texto, que então dividiram o espaço igualmente e forçaram quebra de linha no desktop. Correção:
+  o texto é `flex:0 1 auto` e dimensiona pelo conteúdo, o condutor é `flex:1 1 auto` e fica com a
+  sobra. Isso corrigiu de lambuja uma quebra que já existia na linha "Before".
+- **Em Projects o traço fica curto**, porque a descrição quase preenche a linha. Em Work e
+  Elsewhere sobra bastante espaço e o efeito aparece inteiro.
+- **No mobile o condutor some.** Abaixo de 560px as linhas com detalhe empilham, e não há vão
+  entre texto e metadado para ligar.
+
+Altura da página não mudou: 1287px.
