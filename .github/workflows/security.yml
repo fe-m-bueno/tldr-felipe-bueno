@@ -1,0 +1,92 @@
+# Três perguntas, uma por job: o histórico carrega segredo, a árvore carrega
+# vulnerabilidade ou segredo, e o que vai pra CDN carrega o token do Contentful.
+#
+# A terceira é a que importa aqui. A página é HTML estático gerado no build, e o
+# `$env/static/private` embute o valor no bundle de servidor — que fica em
+# `.svelte-kit/`, não em `build/`. Trocar o adapter, ou perder o `prerender`, faria
+# o token atravessar essa fronteira sem avisar ninguém.
+
+name: security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Segunda de manhã: pega CVE nova em dependência que não mudou.
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gitleaks:
+    name: segredo no histórico
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # O gitleaks varre commit a commit: sem o histórico inteiro ele só olha o topo.
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  trivy:
+    name: vulnerabilidade e segredo na árvore
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret,misconfig
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: '1'
+
+  build-leak:
+    name: o build não publica segredo
+    runs-on: ubuntu-latest
+    env:
+      CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
+      CONTENTFUL_DELIVERY_TOKEN: ${{ secrets.CONTENTFUL_DELIVERY_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Há credencial para construir?
+        id: creds
+        run: |
+          if [ -n "$CONTENTFUL_DELIVERY_TOKEN" ] && [ -n "$CONTENTFUL_SPACE_ID" ]; then
+            echo 'have=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'have=false' >> "$GITHUB_OUTPUT"
+            echo '::notice::sem CONTENTFUL_* nos secrets do repo, pulando a checagem do build'
+          fi
+
+      - if: steps.creds.outputs.have == 'true'
+        run: npm ci
+
+      - if: steps.creds.outputs.have == 'true'
+        run: npm run build
+
+      - name: Nada em build/ pode conter o token
+        if: steps.creds.outputs.have == 'true'
+        run: |
+          # -q e -l: nunca imprimir a linha encontrada, que conteria o próprio segredo.
+          if grep -rqlF "$CONTENTFUL_DELIVERY_TOKEN" build/; then
+            echo "::error::o delivery token aparece em build/, que é o que vai pra CDN"
+            grep -rlF "$CONTENTFUL_DELIVERY_TOKEN" build/ | sed 's/^/  /'
+            exit 1
+          fi
+          if grep -rqE 'CFPAT-[A-Za-z0-9_-]{20,}' build/; then
+            echo "::error::um management token aparece em build/"
+            exit 1
+          fi
+          echo "build/ limpo: $(find build -type f | wc -l) arquivos verificados"
