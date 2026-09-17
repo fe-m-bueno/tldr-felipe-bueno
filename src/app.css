@@ -11,7 +11,9 @@
 	font-family: 'Inter Variable';
 	font-style: normal;
 	font-display: swap;
-	font-weight: 100 900;
+	/* A faixa é a do arquivo: `scripts/build-assets.py` corta o eixo em 400–560,
+	   que são os quatro meio-pesos do desenho. */
+	font-weight: 400 560;
 	src: url('/fonts/inter-latin-wght-normal.woff2') format('woff2-variations');
 	/* Subset latino do @fontsource-variable/inter. A flecha → não está aqui: ela é o
 	   símbolo `i-arrow` do sprite, extraído do mesmo desenho da Inter. */

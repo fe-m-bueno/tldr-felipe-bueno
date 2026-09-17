@@ -1,6 +1,5 @@
 <script lang="ts">
 	import '../app.css';
-	import IconSprite from '$lib/components/IconSprite.svelte';
 
 	let { children } = $props();
 
@@ -24,8 +23,6 @@
 	<meta property="og:locale" content="en_US" />
 	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
-
-<IconSprite />
 
 <div class="col">
 	{@render children()}

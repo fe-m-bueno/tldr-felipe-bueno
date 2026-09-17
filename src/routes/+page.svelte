@@ -1,7 +1,9 @@
 <script lang="ts">
 	import Icon from '$lib/components/Icon.svelte';
+	import IconSprite from '$lib/components/IconSprite.svelte';
 	import Row from '$lib/components/Row.svelte';
 	import Text from '$lib/components/Text.svelte';
+	import { ICONS } from '$lib/types';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -11,6 +13,10 @@
 <svelte:head>
 	<title>Felipe Bueno, the short version</title>
 </svelte:head>
+
+<!-- Todos os ícones de linha: o `icon` do tldrRow é um dropdown fechado nesses seis,
+     então qualquer edição no Contentful já está coberta. Mais a flecha do texto. -->
+<IconSprite ids={[...ICONS, 'arrow']} />
 
 <div class="hd">
 	{#if profile.avatar}
