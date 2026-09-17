@@ -1,0 +1,279 @@
+/*
+	A variante E do protótipo, traduzida. As opacidades são as do ticket 07 (todos os
+	tiers em WCAG AA), a regra de mobile é a emenda do ticket 03, e o condutor pontilhado
+	é a indulgência — o único movimento da página, junto com o apagar das linhas irmãs.
+
+	Estilo global e não escopado por componente de propósito: são seis seletores que
+	valem para a página inteira, e a linha é montada por três componentes diferentes.
+*/
+
+@font-face {
+	font-family: 'Inter Variable';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 100 900;
+	src: url('/fonts/inter-latin-wght-normal.woff2') format('woff2-variations');
+	/* Subset latino do @fontsource-variable/inter. A flecha → não está aqui: ela é o
+	   símbolo `i-arrow` do sprite, extraído do mesmo desenho da Inter. */
+	unicode-range:
+		U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+		U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+	--bg: #fdfdfc;
+	--fg: #1a1a1a;
+	/* Um só nível apagado, a 60%: subtítulo, detalhe, metadado, título de seção e
+	   sublinhado de link. O ticket 07 mediu — abaixo disso o tema claro reprova. */
+	--muted: rgba(26, 26, 26, 0.6);
+	--dots: rgba(26, 26, 26, 0.45);
+	--avatar-bg: rgba(26, 26, 26, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #0f0f0e;
+		--fg: #e8e8e6;
+		--muted: rgba(232, 232, 230, 0.5);
+		--dots: rgba(232, 232, 230, 0.4);
+		--avatar-bg: rgba(232, 232, 230, 0.08);
+	}
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: 'Inter Variable', system-ui, sans-serif;
+	font-size: 16px;
+	line-height: 1.62;
+	font-variation-settings: 'wght' 400;
+	background: var(--bg);
+	color: var(--fg);
+	min-height: 100vh;
+	padding: 104px 24px 160px;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+.col {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+	border-bottom: 1px solid var(--muted);
+	transition: border-color 0.14s;
+}
+
+a:hover {
+	border-bottom-color: var(--fg);
+}
+
+p {
+	margin: 0 0 1.35em;
+}
+
+/* ---------------------------------------------------------------- cabeçalho */
+
+.hd {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin-bottom: 2.4em;
+}
+
+.hd img {
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	object-fit: cover;
+	background: var(--avatar-bg);
+}
+
+.nm {
+	font-variation-settings: 'wght' 560;
+	display: block;
+}
+
+.sub {
+	color: var(--muted);
+	display: block;
+}
+
+/* A linha de disponibilidade: meio-peso acima do corpo, e o último bloco antes das seções. */
+.avail {
+	font-variation-settings: 'wght' 460;
+	margin-bottom: 3.4em;
+}
+
+/* ---------------------------------------------------------------- seções */
+
+section {
+	margin-bottom: 2.6em;
+}
+
+h2 {
+	font-size: 13.5px;
+	font-variation-settings: 'wght' 400;
+	color: var(--muted);
+	margin: 0 0 0.75em;
+	letter-spacing: 0.06em;
+	text-transform: lowercase;
+}
+
+.rows .row {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 0.9em;
+	padding: 0.42em 0;
+	transition: opacity 0.14s ease;
+}
+
+/* A indulgência, parte 1: apontar uma linha apaga as irmãs. */
+.rows:hover .row {
+	opacity: 0.3;
+}
+
+.rows .row:hover {
+	opacity: 1;
+}
+
+/* A indulgência, parte 2: o condutor cresce da esquerda e liga o texto ao metadado.
+   O texto dimensiona pelo conteúdo e o condutor fica com a sobra — se os dois forem
+   `flex:1` eles dividem o espaço igualmente e a linha quebra no desktop. */
+.rows .row .lead-dots {
+	flex: 1 1 auto;
+	align-self: center;
+	min-width: 0;
+	height: 1px;
+	color: var(--dots);
+	background-image: repeating-linear-gradient(to right, currentColor 0 2px, transparent 2px 6px);
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 0% 1px;
+	transition: background-size 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rows .row:hover .lead-dots {
+	background-size: 100% 1px;
+}
+
+.row .l {
+	flex: 0 1 auto;
+	min-width: 0;
+}
+
+.row .t {
+	font-variation-settings: 'wght' 500;
+}
+
+/* A linha que navega dentro do site, e não prova nada: peso de corpo. */
+.row .t.weak {
+	font-variation-settings: 'wght' 400;
+}
+
+.row .d {
+	color: var(--muted);
+}
+
+.row .m {
+	color: var(--muted);
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------- ícones */
+
+/* Alinhado à altura-x: nunca empurra a linha de base. */
+.ic {
+	width: 1em;
+	height: 1em;
+	vertical-align: -0.13em;
+	margin-right: 0.32em;
+	opacity: 0.75;
+	flex-shrink: 0;
+}
+
+/* A flecha usa a caixa do glifo, então assenta na linha como o caractere assentaria:
+   0,9507em de avanço, 1,21em de altura, 0,2412em abaixo da base. */
+.arrow {
+	width: 0.951em;
+	height: 1.21em;
+	vertical-align: -0.241em;
+	fill: currentColor;
+}
+
+.lk {
+	white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------- /projects */
+
+.back {
+	display: inline-block;
+	margin-bottom: 2.6em;
+	color: var(--muted);
+}
+
+h1 {
+	font-size: 16px;
+	font-variation-settings: 'wght' 560;
+	margin: 0 0 0.3em;
+}
+
+p.sub {
+	margin: 0 0 2.6em;
+}
+
+/* ---------------------------------------------------------------- mobile
+   Em 390px o detalhe quebra e o metadado fica preso à direita da primeira linha, com o
+   texto correndo por baixo dele. Empilham só as linhas que têm detalhe: as de Elsewhere
+   não têm e continuam boas em duas colunas. O desktop não muda. */
+
+@media (max-width: 560px) {
+	.rows .row:has(.d) {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.1em;
+		padding: 0.55em 0;
+	}
+
+	/* Empilhado não há vão entre texto e metadado, então não há o que ligar. */
+	.rows .row:has(.d) .lead-dots {
+		display: none;
+	}
+
+	.hd {
+		align-items: flex-start;
+	}
+}
+
+/* ---------------------------------------------------------------- movimento
+
+   As duas animações da página são decoração. Quem pediu menos movimento fica sem elas. */
+
+@media (prefers-reduced-motion: reduce) {
+	.rows .row,
+	.rows .row .lead-dots,
+	a {
+		transition: none;
+	}
+
+	.rows:hover .row {
+		opacity: 1;
+	}
+
+	.rows .row:hover .lead-dots {
+		background-size: 0% 1px;
+	}
+}

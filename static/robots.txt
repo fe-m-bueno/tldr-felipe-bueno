@@ -1,0 +1,4 @@
+# O noindex vive na meta tag de cada página, não aqui: bloquear o rastreamento
+# impediria o robô de ler o próprio noindex, e derrubaria o preview de link.
+User-agent: *
+Allow: /

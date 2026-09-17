@@ -1,0 +1,17 @@
+# Package Managers
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+bun.lock
+bun.lockb
+
+# Miscellaneous
+/static/
+
+# A spec e a pesquisa são texto, não código: o prettier reescreve tabelas e quebras
+# que foram formatadas à mão.
+.scratch/
+research/
+prototype/
+contentful/migrations/
+*.md
