@@ -5,6 +5,11 @@
 // (`site-profile-main`, `project-bookclubinho`). Rodar de novo reescreve e republica,
 // não duplica.
 //
+// ATENÇÃO: reescrever significa sobrescrever. Uma edição feita no app do Contentful
+// volta ao texto daqui na próxima execução. Se o texto mudou por lá e deve ficar,
+// traga a mudança para este arquivo antes de rodar de novo — foi o que aconteceu com
+// "2025 — Present", editado no app e revertido sem querer.
+//
 //   node contentful/seed-tldr.mjs           # escreve e publica
 //   node contentful/seed-tldr.mjs --dry     # só imprime o que faria
 //
@@ -93,7 +98,7 @@ const WORK = [
 		internalName: 'TLDR · Work · Pilgrims Consulting',
 		label: 'Pilgrims Consulting',
 		detail: 'Software engineer',
-		meta: '2025 —'
+		meta: '2025 — Present'
 	},
 	{
 		id: 'tldr-row-work-before',
@@ -178,10 +183,10 @@ const ELSEWHERE = [
 
 // A bio guarda dois parágrafos separados por linha em branco, e o link com ícone
 // da variante E em sintaxe markdown com o nome do ícone no título:
-//   [texto](url "company")
+//   [texto](url "pilgrims")
 const BIO = `I design services and APIs from scratch and make them fast. And I get systems that were never meant to talk to each other to agree on the same numbers.
 
-I work at [Pilgrims Consulting](https://pilgrimsconsulting.com.br "company"), in Curitiba. I came into engineering through a business degree, which is why messy operational data doesn't throw me.`;
+I work at [Pilgrims Consulting](https://pilgrimsconsulting.com.br "pilgrims"), in Curitiba. I came into engineering through a business degree, which is why messy operational data doesn't throw me.`;
 
 const PROFILE = {
 	id: 'tldr-profile-main',

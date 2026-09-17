@@ -1,5 +1,8 @@
 // Modelo de conteúdo do TLDR (tldr.felipe-bueno.com).
 //
+// `.cjs` e não `.js`: o package.json do repo declara `"type": "module"`, e o runner de
+// migration do Contentful carrega o arquivo como CommonJS.
+//
 // ADITIVA: cria apenas `tldrProfile` e `tldrRow`. Não toca em nenhum type existente,
 // então o felipe-bueno.com não sente nada. Roda no MESMO space e no MESMO environment
 // (`master`) — é o único jeito de `tldrRow.ref` conseguir apontar para `project` e
@@ -9,7 +12,7 @@
 // num campo existente é uma migration posterior e não descarta conteúdo.
 //
 // Rodar com o runner do repo felipe-bueno enquanto este repo não tiver o seu:
-//   npm run contentful:migrate -- ../tldr-felipe-bueno/contentful/migrations/003-tldr-model.js
+//   npm run contentful:migrate -- ../tldr-felipe-bueno/contentful/migrations/003-tldr-model.cjs
 
 const rowIcons = ["mail", "github", "linkedin", "web", "pdf", "company"];
 

@@ -3,7 +3,7 @@
 //
 // O vocabulário aqui é o do CONTEXT.md: linha, rótulo, detalhe, metadado.
 
-export const ICONS = ['mail', 'github', 'linkedin', 'web', 'pdf', 'company'] as const;
+export const ICONS = ['mail', 'github', 'linkedin', 'web', 'pdf', 'company', 'pilgrims'] as const;
 export type IconName = (typeof ICONS)[number];
 
 /** Os dois símbolos do sprite que não são ícone de linha: as setas que faltam na fonte. */
