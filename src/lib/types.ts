@@ -58,6 +58,4 @@ export interface HomeData {
 	profile: Profile;
 	/** Os três posts mais recentes. Vazio = a seção Writing não existe. */
 	writing: Row[];
-	/** Quantos `project` publicados existem, para o metadado da linha `All projects`. */
-	projectCount: number;
 }

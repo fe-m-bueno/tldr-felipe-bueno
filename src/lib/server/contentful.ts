@@ -237,23 +237,8 @@ export async function getProjectRows(): Promise<Row[]> {
 	});
 }
 
-/** Só o número da linha `All projects`. O envelope do Contentful já traz a contagem. */
-async function countProjects(): Promise<number> {
-	const projects = await client.getEntries<ProjectSkeleton>({
-		content_type: 'project',
-		'fields.status[in]': PUBLISHED,
-		limit: 0
-	});
-
-	return projects.total;
-}
-
 export async function getHomeData(): Promise<HomeData> {
-	const [profile, writing, projectCount] = await Promise.all([
-		getProfile(),
-		getWriting(),
-		countProjects()
-	]);
+	const [profile, writing] = await Promise.all([getProfile(), getWriting()]);
 
-	return { profile, writing, projectCount };
+	return { profile, writing };
 }

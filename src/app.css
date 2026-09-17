@@ -226,6 +226,11 @@ h2 {
 		display: contents;
 	}
 
+	/* Uma linha sem metadado não tem dois lados para ligar. */
+	.rows .row:not(:has(.m)) .lead-dots {
+		display: none;
+	}
+
 	.rows.stacked .row .d {
 		flex: 0 0 100%;
 		order: 1;

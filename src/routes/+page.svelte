@@ -7,7 +7,7 @@
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
-	let { profile, writing, projectCount } = $derived(data);
+	let { profile, writing } = $derived(data);
 </script>
 
 <svelte:head>
@@ -56,8 +56,9 @@
 		{#each profile.projects as row (row.label)}
 			<Row {row} />
 		{/each}
-		<!-- A segunda rota, do ticket 09. O metadado é a contagem, e ela cresce sozinha. -->
-		<Row row={{ label: 'All projects', meta: String(projectCount), href: '/projects' }} weak />
+		<!-- A segunda rota, do ticket 09. Sem metadado: a contagem não dizia nada que o
+		     clique não diga melhor. -->
+		<Row row={{ label: 'All projects', href: '/projects' }} weak />
 	</div>
 </section>
 
