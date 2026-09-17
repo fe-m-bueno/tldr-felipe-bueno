@@ -20,7 +20,7 @@
 
 <div class="hd">
 	{#if profile.avatar}
-		<img src={profile.avatar.src} alt={profile.avatar.alt} width="44" height="44" />
+		<img src={profile.avatar.src} alt={profile.avatar.alt} width="56" height="56" />
 	{/if}
 	<span>
 		<span class="nm">{profile.name}</span>
@@ -52,7 +52,7 @@
 
 <section>
 	<h2>projects</h2>
-	<div class="rows">
+	<div class="rows stacked">
 		{#each profile.projects as row (row.label)}
 			<Row {row} />
 		{/each}

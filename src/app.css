@@ -81,6 +81,11 @@ a:hover {
 
 p {
 	margin: 0 0 1.35em;
+	/* Justificado a pedido: a borda direita da bio fechava irregular. Com uma coluna
+	   de 600px e sem hifenização o justificado abre rios entre as palavras, então os
+	   dois andam juntos — o `lang="en"` do documento é o que dá a regra de hífen. */
+	text-align: justify;
+	hyphens: auto;
 }
 
 /* ---------------------------------------------------------------- cabeçalho */
@@ -93,8 +98,8 @@ p {
 }
 
 .hd img {
-	width: 44px;
-	height: 44px;
+	width: 56px;
+	height: 56px;
 	border-radius: 50%;
 	flex-shrink: 0;
 	object-fit: cover;
@@ -192,6 +197,39 @@ h2 {
 	color: var(--muted);
 	white-space: nowrap;
 	flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------------- linha empilhada
+
+   Projects é a única seção cuja descrição não cabe ao lado do metadado. Empilhada, a
+   primeira linha fica rótulo + condutor + stack, e a descrição ocupa a linha inteira
+   embaixo. Isso conserta duas coisas de uma vez: o condutor passa a aparecer em todas
+   as linhas (antes só sobrava vão na mais curta), e a stack nunca mais fica encalhada
+   à direita de um texto que quebrou.
+
+   `display: contents` no `.l` dissolve o invólucro e entrega rótulo e descrição
+   direto ao flex da linha, que é o que permite mandar a descrição para a segunda. */
+
+/* Abaixo de 560px a linha com detalhe já empilha sozinha, pela emenda do ticket 03.
+   Empilhar duas vezes colocava o metadado entre o rótulo e a descrição. */
+@media (min-width: 561px) {
+	.rows.stacked .row {
+		flex-wrap: wrap;
+		/* O `gap` da linha vale nos dois eixos assim que ela quebra, e 0.9em entre o
+		   rótulo e a sua própria descrição afastava as duas tanto quanto duas linhas
+		   diferentes. A descrição cola no rótulo; quem separa as linhas é o padding. */
+		row-gap: 0;
+		padding: 0.5em 0;
+	}
+
+	.rows.stacked .row .l {
+		display: contents;
+	}
+
+	.rows.stacked .row .d {
+		flex: 0 0 100%;
+		order: 1;
+	}
 }
 
 /* ---------------------------------------------------------------- ícones */

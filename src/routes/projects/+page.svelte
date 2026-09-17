@@ -26,7 +26,7 @@
 <p class="sub">Everything I've shipped and kept online. Three of these are on the front page.</p>
 
 <section>
-	<div class="rows">
+	<div class="rows stacked">
 		{#each projects as row (row.label)}
 			<Row {row} />
 		{/each}

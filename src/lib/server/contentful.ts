@@ -180,7 +180,7 @@ async function getProfile(): Promise<Profile> {
 		// da página depois da fonte e do favicon.
 		avatar: avatarUrl
 			? {
-					src: `${avatarUrl}?w=160&h=160&fit=thumb&f=face&fm=webp&q=80`,
+					src: `${avatarUrl}?w=112&h=112&fit=thumb&f=face&fm=webp&q=80`,
 					alt: text(profile.fields.name) ?? ''
 				}
 			: undefined,
